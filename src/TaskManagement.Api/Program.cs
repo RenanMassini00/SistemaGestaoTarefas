@@ -1,17 +1,20 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using TaskManagement.Api.Middleware;
 using TaskManagement.Application.Interfaces;
 using TaskManagement.Application.Services;
+using TaskManagement.Api.Serialization;
+using TaskManagement.Domain.Enums;
 using TaskManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddControllers()
+    .AddControllers(options =>
+        options.ModelBinderProviders.Insert(0, new TaskItemStatusModelBinderProvider()))
     .AddJsonOptions(options =>
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+        options.JsonSerializerOptions.Converters.Add(new TaskItemStatusJsonConverter()));
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -36,6 +39,17 @@ builder.Services.AddInfrastructure();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.MapType<TaskItemStatus>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Enum =
+        {
+            new OpenApiString("Pendente"),
+            new OpenApiString("Em progresso"),
+            new OpenApiString("Concluída")
+        }
+    });
+
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "API de Gestão de Tarefas",
