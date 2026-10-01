@@ -5,20 +5,20 @@ namespace TaskManagement.Application.DTOs;
 
 /// <summary>Dados necessários para cadastrar uma tarefa.</summary>
 public sealed record CreateTaskRequest(
-    [property: Required(ErrorMessage = "O título é obrigatório.")]
-    [property: StringLength(150, MinimumLength = 3, ErrorMessage = "O título deve possuir entre 3 e 150 caracteres.")]
+    [param: Required(ErrorMessage = "O título é obrigatório.")]
+    [param: StringLength(150, MinimumLength = 3, ErrorMessage = "O título deve possuir entre 3 e 150 caracteres.")]
     string Title,
-    [property: StringLength(2000, ErrorMessage = "A descrição deve possuir no máximo 2.000 caracteres.")]
+    [param: StringLength(2000, ErrorMessage = "A descrição deve possuir no máximo 2.000 caracteres.")]
     string? Description,
     DateTime? DueDate,
     TaskItemStatus Status);
 
 /// <summary>Dados necessários para atualizar uma tarefa.</summary>
 public sealed record UpdateTaskRequest(
-    [property: Required(ErrorMessage = "O título é obrigatório.")]
-    [property: StringLength(150, MinimumLength = 3, ErrorMessage = "O título deve possuir entre 3 e 150 caracteres.")]
+    [param: Required(ErrorMessage = "O título é obrigatório.")]
+    [param: StringLength(150, MinimumLength = 3, ErrorMessage = "O título deve possuir entre 3 e 150 caracteres.")]
     string Title,
-    [property: StringLength(2000, ErrorMessage = "A descrição deve possuir no máximo 2.000 caracteres.")]
+    [param: StringLength(2000, ErrorMessage = "A descrição deve possuir no máximo 2.000 caracteres.")]
     string? Description,
     DateTime? DueDate,
     TaskItemStatus Status);
